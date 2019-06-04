@@ -1,4 +1,32 @@
 <section class="container">
+    <div class="grid"> </div>
 </section>
 <footer class="container">
 </footer>
+<script src="/lib/masonry.pkgd.min.js"></script>
+<script src="/lib/grille-images.js"></script>
+<style>
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.grid {
+    margin: 0 auto;
+}
+
+.grid-sizer,
+.grid-item {
+  width: 160px;
+}
+.grid-item {
+  float: left;
+  background: #D26;
+  margin-bottom: 10px;
+}
+
+img {
+    width: 100%;
+}
+</style>
