@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Hektor</title>
+
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono' rel='stylesheet'>
+
+	<link rel="stylesheet" type="text/css" href="css/Skeleton-2.0.4/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/Skeleton-2.0.4/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<header class="container">
+		<div class="row middle">
+			<div class="one-third column">
+                <ul id="liens">
+                    <li><a href='/bio'>bio+démarche</a></li>
+                    <li><a href='/oeuvres'>oeuvres</a></li>
+                </ul>
+			</div>
+			<div class="one-third column">
+                <h1><a href="/" class="vert">hektor</a></h1>
+			</div>
+            <div class="one-third column">
+                <ul id="aide">
+                    <li>?</li>
+                </ul>
+            </div>
+		</div>
+	</header>
+    <%= yield %>
+</body>
+</html>

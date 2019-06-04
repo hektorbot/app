@@ -1,0 +1,71 @@
+body {
+    font-family: 'IBM Plex Mono';
+    color: #0d0d0d;
+}
+
+h1 {
+    color: #e0f2e9;
+    text-align: center;
+    font-weight: bold;
+}
+
+header {
+    height: 180px;
+}
+
+header * {
+    height: inherit;
+}
+
+.middle * {
+    line-height: 180px;
+}
+
+header ul {
+    list-style-type: none;
+}
+
+header ul li:first-child{
+    margin-right: 25px;
+}
+
+header ul#aide li {
+    float: right;
+}
+
+header ul li {
+    display: inline;
+}
+
+#splash > img {
+    width: 100%;
+}
+
+footer {
+    height: 180px;
+}
+
+#biographie {
+    column-count: 2;
+}
+
+a {
+    text-decoration: none;
+    color: #0d0d0d;
+}
+
+a:hover {
+    font-weight: bold;
+    color: #0d0d0d;
+}
+
+#credits-bio {
+    margin-top : 40px;
+    border-top: 1px solid #0d0d0d;
+    padding-top: 5px;
+    display: inline-block;
+}
+
+.vert {
+    color: #e0f2e9;
+}
