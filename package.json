@@ -1,0 +1,17 @@
+{
+  "name": "hektor-frontend",
+  "version": "1.0.0",
+  "repository": "https://github.com/hektorbot/app.git",
+  "license": "MIT",
+  "scripts": {
+    "deploy:prod": "shipit prod deploy",
+    "deploy:dev": "shipit dev deploy"
+  },
+  "devDependencies": {
+    "commander": "^2.20.0",
+    "consola": "^2.7.1",
+    "dotenv": "^8.0.0",
+    "shipit-cli": "^4.2.0",
+    "shipit-deploy": "^4.1.4"
+  }
+}
