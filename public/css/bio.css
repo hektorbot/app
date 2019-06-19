@@ -1,0 +1,21 @@
+#biographie {
+    display: grid;
+    grid-template-columns: 47% 47%;
+    grid-gap: 6%;
+
+    text-align: justify;
+    margin-bottom: 60px;
+}
+
+.item div {
+    margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 400px) {
+    #biographie {
+        grid-template-columns: 47% 47%;
+        grid-gap: 6%;
+    }
+}
+
+

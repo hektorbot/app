@@ -1,32 +1,18 @@
 <section class="container">
-    <div class="grid"> </div>
+    <div class="grid">
+        <div class="grid-sizer" style="width: 19%"></div>
+        <div class="gutter-sizer" style="width: 1%"></div>
+    </div>
 </section>
 <footer class="container">
 </footer>
-<script src="/lib/masonry.pkgd.min.js"></script>
-<script src="/lib/grille-images.js"></script>
-<style>
-.grid:after {
-    content: '';
-    display: block;
-    clear: both;
-}
+<script type="text/javascript">
 
-.grid {
-    margin: 0 auto;
-}
+var oeuvres = <%= @oeuvres %>,
+    grid, msnry,
+    chargement_termine = false,
+    en_travail = {
+        etat: false
+    };
 
-.grid-sizer,
-.grid-item {
-  width: 160px;
-}
-.grid-item {
-  float: left;
-  background: #D26;
-  margin-bottom: 10px;
-}
-
-img {
-    width: 100%;
-}
-</style>
+</script>

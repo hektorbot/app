@@ -1,0 +1,19 @@
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.grid {
+    margin: 0 auto;
+}
+
+.grid-item {
+  width: 19%;
+  float: left;
+  background: #D26;
+  margin-bottom: 10px;
+}
+
+.grid-item img {
+    width: 100%;
+}

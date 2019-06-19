@@ -1,0 +1,23 @@
+body {
+    background-color: #e0f2e9;
+}
+
+#pratique {
+    display: grid;
+    grid-template-columns: 47% 47%;
+    grid-gap: 6%;
+
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.credits {
+    border-color: white;
+}

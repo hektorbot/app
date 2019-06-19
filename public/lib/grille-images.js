@@ -1,47 +1,66 @@
-var grid = document.querySelector('.grid');
-var msnry = new Masonry( grid, {
-    fitWidth: true,
-    columnWidth: 160,
-    gutter: 10,
-    itemSelector: '.grid-item'
-});
+function add_images (n) {
 
-window.setInterval(function () {
+    if (n >= oeuvres.length) {
+        chargement_termine = true;
+        n = oeuvres.length;
+    }
 
-    // create new item elements
     var elems = [];
     var fragment = document.createDocumentFragment();
-    for ( var i = 0; i < 3; i++  ) {
+    for ( var i = 0; i < n; i++  ) {
         var elem = getItemElement();
         fragment.appendChild( elem  );
         elems.push( elem  );
     }
     // append elements to container
-    grid.appendChild( fragment  );
+    grid.appendChild(fragment);
     // add and lay out newly appended elements
-    msnry.appended( elems  );
+    msnry.appended(elems);
     msnry.reloadItems();
     msnry.layout();
-}, 1000);
+}
 
 function getItemElement() {
     var elem = document.createElement('div');
     var img = document.createElement('img');
-    img.src = getimgname();
+    img.src = oeuvres.shift();
     elem.appendChild(img);
     elem.className = 'grid-item';
     return elem;
 }
 
-function getimgname () {
-    var noms = [
-        "http://3.bp.blogspot.com/-RIjj0rVkJ7g/Umz9fX7PwgI/AAAAAAAABfg/dzFIcFFgV0E/s1600/Wallpaper+1080p+Full+HD+Download.jpg",
-        "http://www.wallpaperhdc.com/wp-content/uploads/2017/04/photography-wallpaper-full-hd-cool-photos.jpg",
-        "http://getwallpapers.com/wallpaper/full/9/5/9/203235.jpg",
-        "http://getwallpapers.com/wallpaper/full/9/5/9/203235.jpg",
-        "https://wallpapershome.com/images/wallpapers/darts-1080x1920-4k-5k-wallpaper-hd-wheel-target-fire-water-561.jpg"
-    ]
-    var num = Math.round(Math.random()*100/25);
-    return noms[num];
+function ajouter_images () {
+
+    alert("scroll");
+    if(en_travail.etat) return;
+
+    if(chargement_termine) {
+        window.removeEventListener('scroll', ajouter_images);
+        return;
+    }
+
+    // Si ont est a + de 75% de la page
+    if(Math.max( document.body.scrollHeight, document.body.offsetHeight ) > 0.75 * window.scrollY){
+        en_travail.etat = true;
+        add_images(10);
+    }
+    en_travail.etat = false;
+}
+
+window.onload = function () {
+    grid = document.querySelector('.grid');
+    msnry = new Masonry( grid, {
+        columnWidth: ".grid-sizer",
+        gutter: ".gutter-sizer",
+        itemSelector: '.grid-item'
+        });
+
+    add_images(10);
+
+    window.addEventListener('scroll', ajouter_images);
+};
+
+function test () {
+    console.log("lala");
 }
 
