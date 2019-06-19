@@ -1,12 +1,7 @@
 body {
     font-family: 'IBM Plex Mono';
     color: #0d0d0d;
-}
-
-h1 {
-    color: #e0f2e9;
-    text-align: center;
-    font-weight: bold;
+    font-size: 1.3em;
 }
 
 header {
@@ -25,10 +20,6 @@ header ul {
     list-style-type: none;
 }
 
-header ul li:first-child{
-    margin-right: 25px;
-}
-
 header ul#aide li {
     float: right;
 }
@@ -45,10 +36,6 @@ footer {
     height: 180px;
 }
 
-#biographie {
-    column-count: 2;
-}
-
 a {
     text-decoration: none;
     color: #0d0d0d;
@@ -59,13 +46,32 @@ a:hover {
     color: #0d0d0d;
 }
 
-#credits-bio {
+.vert {
+    color: #e0f2e9;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#logo {
+    vertical-align: middle;
+    max-height: 60px;
+}
+
+.petit-texte {
+    font-size: 0.8em;
+}
+
+
+.credits {
     margin-top : 40px;
-    border-top: 1px solid #0d0d0d;
+    border-top: 2px solid #0d0d0d;
+    border-color: #e0f2e9;
     padding-top: 5px;
     display: inline-block;
 }
 
-.vert {
-    color: #e0f2e9;
-}
+
