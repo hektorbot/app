@@ -12,16 +12,14 @@ function add_images (n) {
         fragment.appendChild( elem  );
         elems.push( elem  );
     }
-    // append elements to container
-    grid.appendChild(fragment);
-    // add and lay out newly appended elements
-    msnry.appended(elems);
-    msnry.reloadItems();
-    setTimeout(function () {
-    msnry.layout();
-    resize_grid();
 
-    }, 1000)
+    grid.appendChild(fragment);
+    msnry.appended(elems);
+
+    setTimeout(function () {
+        msnry.layout();
+        resize_grid();
+    }, 1000);
 }
 
 function getItemElement() {
@@ -39,19 +37,14 @@ function getItemElement() {
 
 function ajouter_images () {
 
-    if(en_travail.etat) return;
+    window.removeEventListener('scroll', ajouter_images);
 
-    if(chargement_termine) {
-        window.removeEventListener('scroll', ajouter_images);
-        return;
-    }
+    if(chargement_termine) { return; }
 
     // Si ont est a + de 75% de la page
-    if(Math.max( document.body.scrollHeight, document.body.offsetHeight ) > 0.75 * window.scrollY){
-        en_travail.etat = true;
-        add_images(10);
-    }
-    en_travail.etat = false;
+    if(get_height_ecran() > 0.75 * window.scrollY){ add_images(5); }
+
+    window.addEventListener('scroll', ajouter_images);
 }
 
 function resize_grid() {
@@ -66,17 +59,28 @@ function get_height(elem) {
     return parseInt(elem.style.top.substr(0, elem.style.top.length-2));
 }
 
+function get_height_ecran (){
+    return Math.max( document.body.scrollHeight, document.body.offsetHeight);
+}
+
 window.onload = function () {
     var section = document.getElementById("oeuvres");
 
+    var nombre_colonnes = 6;
+    var gutter = 10;
+
+    var style = document.createElement("style");
+    style.innerHTML = ".grid-item {width: " + (section.offsetWidth - ((nombre_colonnes - 1) * gutter)) / nombre_colonnes + "px;}";
+    document.body.appendChild(style);
+
     grid = document.querySelector('.grid');
     msnry = new Masonry( grid, {
-        columnWidth: ".grid-sizer",
-        gutter: ".gutter-sizer",
-        itemSelector: '.grid-item'
+        fitWidth: true,
+        gutter: gutter
     });
 
-    add_images(5);
+    add_images(10);
+    section.style.minHeight = (get_height_ecran() + 100) + "px";
 
     window.addEventListener('scroll', ajouter_images);
 };

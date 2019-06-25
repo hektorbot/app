@@ -2,7 +2,7 @@ require 'sinatra'
 require 'curb'
 require 'json'
 
-class App < Sinatra::Base
+#class App < Sinatra::Base
   get '/' do
       @image = get_last_img
     erb :index
@@ -38,5 +38,5 @@ class App < Sinatra::Base
     JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/' + image + '/').body)
   end
 
-  run! if __FILE__ == $0
-end
+#  run! if __FILE__ == $0
+#end
