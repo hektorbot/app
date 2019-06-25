@@ -22,9 +22,13 @@ function add_images (n) {
 
 function getItemElement() {
     var elem = document.createElement('div');
+    var a = document.createElement('a');
     var img = document.createElement('img');
-    img.src = oeuvres.shift();
-    elem.appendChild(img);
+    var oeuvre = oeuvres.shift();
+    img.src = oeuvre.thumbnail;
+    a.href = "/paysages/" + oeuvre.slug;
+    a.appendChild(img);
+    elem.appendChild(a);
     elem.className = 'grid-item';
     return elem;
 }
@@ -43,8 +47,17 @@ function ajouter_images () {
     if(Math.max( document.body.scrollHeight, document.body.offsetHeight ) > 0.75 * window.scrollY){
         en_travail.etat = true;
         add_images(10);
+        resize_grid();
     }
     en_travail.etat = false;
+}
+
+function resize_grid() {
+    var section = document.getElementById("oeuvres");
+    var images = section.querySelectorAll(".grid-item");
+    var derniere_image = images[images.length-1];
+
+    section.style.height = derniere_image.querySelector("img").height + parseInt(derniere_image.style.top.substr(0, derniere_image.style.top.length-2)) + "px";
 }
 
 window.onload = function () {
@@ -59,8 +72,3 @@ window.onload = function () {
 
     window.addEventListener('scroll', ajouter_images);
 };
-
-function test () {
-    console.log("lala");
-}
-

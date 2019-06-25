@@ -6,22 +6,26 @@
 
     <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono' rel='stylesheet'>
 
-	<link rel="stylesheet" type="text/css" href="css/Skeleton-2.0.4/css/normalize.css">
-	<link rel="stylesheet" type="text/css" href="css/Skeleton-2.0.4/css/skeleton.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/Skeleton-2.0.4/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/Skeleton-2.0.4/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
 
     <% if @env["PATH_INFO"].match(/oeuvres/) %>
-	    <link rel="stylesheet" type="text/css" href="css/oeuvres.css">
+	    <link rel="stylesheet" type="text/css" href="/css/oeuvres.css">
         <script src="/lib/masonry.pkgd.min.js"></script>
         <script src="/lib/grille-images.js"></script>
     <% end %>
 
     <% if @env["PATH_INFO"].match(/bio/) %>
-        <link rel="stylesheet" type="text/css" href="css/bio.css">
+        <link rel="stylesheet" type="text/css" href="/css/bio.css">
+    <% end %>
+
+    <% if @env["PATH_INFO"].match(/paysages/) %>
+	    <link rel="stylesheet" type="text/css" href="/css/paysages.css">
     <% end %>
 
     <% if @env["PATH_INFO"].match(/info/) %>
-	    <link rel="stylesheet" type="text/css" href="css/info.css">
+	    <link rel="stylesheet" type="text/css" href="/css/info.css">
     <% end %>
 </head>
 <body>
@@ -37,7 +41,7 @@
                 <h1>
                     <a href="/">
                         <span class="helper"></span>
-                        <img id="logo" src="images/logo_hektor.png">
+                        <img id="logo" src="/images/logo_hektor.png">
                     </a>
                 </h1>
 			</div>

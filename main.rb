@@ -21,12 +21,22 @@ class App < Sinatra::Base
     erb :oeuvres
   end
 
+  get '/paysages/:image' do
+    @image = get_image(params['image'])['full']
+    erb :images
+  end
+
   def get_last_img
     JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/?format=json&limit=1').body)["results"].first["full"]
   end
 
   def get_all_img
-    JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/?format=json&limit=10000').body)["results"].map {|i| i["thumbnail"]}
+    JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/?format=json&limit=10000').body)["results"]
+    #JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/?format=json&limit=10000').body)["results"].map {|i| i["thumbnail"]}
+  end
+
+  def get_image (image)
+    JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/' + image + '/').body)
   end
 
   run! if __FILE__ == $0
