@@ -32,7 +32,6 @@ class App < Sinatra::Base
 
   def get_all_img
     JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/?format=json&limit=10000').body)["results"]
-    #JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/?format=json&limit=10000').body)["results"].map {|i| i["thumbnail"]}
   end
 
   def get_image (image)

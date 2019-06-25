@@ -17,7 +17,11 @@ function add_images (n) {
     // add and lay out newly appended elements
     msnry.appended(elems);
     msnry.reloadItems();
+    setTimeout(function () {
     msnry.layout();
+    resize_grid();
+
+    }, 1000)
 }
 
 function getItemElement() {
@@ -35,7 +39,6 @@ function getItemElement() {
 
 function ajouter_images () {
 
-    alert("scroll");
     if(en_travail.etat) return;
 
     if(chargement_termine) {
@@ -47,7 +50,6 @@ function ajouter_images () {
     if(Math.max( document.body.scrollHeight, document.body.offsetHeight ) > 0.75 * window.scrollY){
         en_travail.etat = true;
         add_images(10);
-        resize_grid();
     }
     en_travail.etat = false;
 }
@@ -57,18 +59,24 @@ function resize_grid() {
     var images = section.querySelectorAll(".grid-item");
     var derniere_image = images[images.length-1];
 
-    section.style.height = derniere_image.querySelector("img").height + parseInt(derniere_image.style.top.substr(0, derniere_image.style.top.length-2)) + "px";
+    section.style.height = (100 + derniere_image.querySelector("img").height + get_height(derniere_image)) + "px";
+}
+
+function get_height(elem) {
+    return parseInt(elem.style.top.substr(0, elem.style.top.length-2));
 }
 
 window.onload = function () {
+    var section = document.getElementById("oeuvres");
+
     grid = document.querySelector('.grid');
     msnry = new Masonry( grid, {
         columnWidth: ".grid-sizer",
         gutter: ".gutter-sizer",
         itemSelector: '.grid-item'
-        });
+    });
 
-    add_images(10);
+    add_images(5);
 
     window.addEventListener('scroll', ajouter_images);
 };

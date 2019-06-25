@@ -1,3 +1,7 @@
+section {
+    min-height: 200px;
+}
+
 .grid:after {
     content: '';
     display: block;
