@@ -63,13 +63,21 @@ function get_height_ecran (){
     return Math.max( document.body.scrollHeight, document.body.offsetHeight);
 }
 
+function redraw () {
+    var style = document.getElementById("style-colonnes-grille");
+    var section = document.getElementById("oeuvres");
+
+    style.innerHTML = ".grid-item {width: " + (section.offsetWidth - ((nombre_colonnes - 1) * gutter)) / nombre_colonnes + "px;}";
+
+    msnry.layout();
+    resize_grid();
+}
+
 window.onload = function () {
     var section = document.getElementById("oeuvres");
 
-    var nombre_colonnes = 6;
-    var gutter = 10;
-
     var style = document.createElement("style");
+    style.id = "style-colonnes-grille";
     style.innerHTML = ".grid-item {width: " + (section.offsetWidth - ((nombre_colonnes - 1) * gutter)) / nombre_colonnes + "px;}";
     document.body.appendChild(style);
 
@@ -83,4 +91,5 @@ window.onload = function () {
     section.style.minHeight = (get_height_ecran() + 100) + "px";
 
     window.addEventListener('scroll', ajouter_images);
+    window.addEventListener('resize', redraw);
 };
