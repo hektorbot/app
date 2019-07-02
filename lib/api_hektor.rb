@@ -2,19 +2,16 @@ require 'dotenv/load'
 require "curb"
 require 'fileutils'
 
-#https://github.com/gwik/ffmpeg-ruby
-require "ffmpeg"
+#https://github.com/streamio/streamio-ffmpeg
+require "streamio-ffmpeg"
 
 require_relative 'api_arlo.rb'
 require_relative 'api_dropbox.rb'
-
-UN_JOUR = 60*60*24
 
 DOSSIER_IMAGES_ARLO = Dir.pwd + "/data/" + "arlo_images"
 DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/" + "arlo_videos"
 
 ARLO_JPG_QUALITY = 1 #1-31, 1 : meilleur
-ARLO_SEEK_TIME = 5 # avancer le video de X secondes
 
 class ApiHektor
   attr_accessor :arlo, :dropbox
@@ -45,22 +42,18 @@ class ApiHektor
     # Videos de la journee
     videos = @arlo.get_videos(debut, fin)
     videos.each do |v|
-      p v
-      nom_video = DOSSIER_VIDEOS_ARLO + "/" + v[:id] + ".mp4"
-      nom_image = DOSSIER_IMAGES_ARLO + "/" + v[:id] + ".jpg"
+      nom_video = DOSSIER_VIDEOS_ARLO + "/" + v[:id] + "-" + v[:camera] + "-" + v[:date] + ".mp4"
+      nom_image = DOSSIER_IMAGES_ARLO + "/" + v[:id] + "-" + v[:camera] + "-" + v[:date] + ".jpg"
       begin
 
         # Telecharger videos
-        p "save"
         save(nom_video, Curl.get(v[:video]).body)
 
         # Creation de l'image
-        p "creation"
         movie = FFMPEG::Movie.new(nom_video)
-        movie.screenshot(nom_image, seek_time: ARLO_SEEK_TIME, quality: ARLO_JPG_QUALITY)
+        movie.screenshot(nom_image, seek_time: (v[:secondes] / 2), quality: ARLO_JPG_QUALITY)
 
         # Suppression du video
-        p "delete"
         File.delete(nom_video)
 
       rescue StandardError => e

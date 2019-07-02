@@ -15,8 +15,9 @@ class ApiArlo
 
     videos.map do |v|
       {
-        id: v["uniqueId"],
+        id: v["name"],
         video: v["presignedContentUrl"],
+        secondes: v["mediaDurationSecond"].to_i,
         camera: cameras.select {|c| c["deviceId"] == v["deviceId"] }.first["deviceName"],
         date: v["createdDate"]
       }
