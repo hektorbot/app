@@ -3,8 +3,9 @@ require 'curb'
 require 'json'
 
 class App < Sinatra::Base
+
   get '/' do
-      @image = get_last_img
+    @image = get_last_img
     erb :index
   end
 
