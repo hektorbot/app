@@ -8,8 +8,10 @@ require "streamio-ffmpeg"
 require_relative 'api_arlo.rb'
 require_relative 'api_dropbox.rb'
 
-DOSSIER_IMAGES_ARLO = Dir.pwd + "/data/" + "arlo_images"
-DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/" + "arlo_videos"
+DOSSIER_IMAGES_ARLO = Dir.pwd + "/data/" + "arlo_images" + "/"
+DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/" + "arlo_videos" + "/"
+
+DOSSIER_INPUT_DROPBOX = "/input/"
 
 ARLO_JPG_QUALITY = 1 #1-31, 1 : meilleur
 
@@ -42,19 +44,22 @@ class ApiHektor
     # Videos de la journee
     videos = @arlo.get_videos(debut, fin)
     videos.each do |v|
-      nom_video = DOSSIER_VIDEOS_ARLO + "/" + v[:id] + "-" + v[:camera] + "-" + v[:date] + ".mp4"
-      nom_image = DOSSIER_IMAGES_ARLO + "/" + v[:id] + "-" + v[:camera] + "-" + v[:date] + ".jpg"
+      nom_video = v[:id] + "-" + v[:camera] + "-" + v[:date] + ".mp4"
+      nom_image = v[:id] + "-" + v[:camera] + "-" + v[:date] + ".jpg"
       begin
 
         # Telecharger videos
-        save(nom_video, Curl.get(v[:video]).body)
+        save(DOSSIER_VIDEOS_ARLO + nom_video, Curl.get(v[:video]).body)
 
         # Creation de l'image
-        movie = FFMPEG::Movie.new(nom_video)
-        movie.screenshot(nom_image, seek_time: (v[:secondes] / 2), quality: ARLO_JPG_QUALITY)
+        movie = FFMPEG::Movie.new(DOSSIER_VIDEOS_ARLO + nom_video)
+        movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: (v[:secondes] / 2), quality: ARLO_JPG_QUALITY)
 
         # Suppression du video
-        File.delete(nom_video)
+        File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
+
+        # Upload image
+        File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_INPUT_DROPBOX + nom_image, f.read }
 
       rescue StandardError => e
         p e.message

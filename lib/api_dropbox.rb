@@ -3,21 +3,22 @@
 require 'dropbox'
 
 class ApiDropbox
+  attr_accessor :api
 
   def initialize
-    @d = Dropbox::Client.new(ENV['DROPBOX_ACCESS_TOKEN'])
+    @api = Dropbox::Client.new(ENV['DROPBOX_ACCESS_TOKEN'])
   end
 
   def get_inputs
-   p @d.list_folder("/inputs").map {|f| f.path_lower }
+   p @api.list_folder("/inputs").map {|f| f.path_lower }
   end
 
   def get_styles
-    @d.list_folder("/styles").map {|f| f.path_lower }
+    @api.list_folder("/styles").map {|f| f.path_lower }
   end
 
   def marquer_utilise (path)
-    @d.move(path, path + "-L" + Time.now.to_i)
+    @api.move(path, path + "-L" + Time.now.to_i)
   end
 
 end
