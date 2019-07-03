@@ -8,12 +8,16 @@ require "streamio-ffmpeg"
 require_relative 'api_arlo.rb'
 require_relative 'api_dropbox.rb'
 
-DOSSIER_IMAGES_ARLO = Dir.pwd + "/data/" + "arlo_images" + "/"
-DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/" + "arlo_videos" + "/"
+DOSSIER_IMAGES_ARLO = Dir.pwd + "/data/arlo_images/"
+DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/arlo_videos/"
+DOSSIER_TMP = Dir.pwd + "/data/tmp/"
 
-DOSSIER_INPUT_DROPBOX = "/inputs/"
+DOSSIER_INPUTS_DROPBOX = "/inputs/"
+DOSSIER_STYLES_DROPBOX = "/inputs/"
 
 ARLO_JPG_QUALITY = 1 #1-31, 1 : meilleur
+
+URL_HEKTOR = "https://api.hektor.ca/rest/artworks/?format=json"
 
 class ApiHektor
   attr_accessor :arlo, :dropbox
@@ -32,6 +36,17 @@ class ApiHektor
     unless File.directory?(DOSSIER_VIDEOS_ARLO)
       FileUtils.mkdir_p(DOSSIER_VIDEOS_ARLO)
     end
+
+    # Creer le dossier images s'il n'existe pas
+    unless File.directory?(DOSSIER_TMP)
+      FileUtils.mkdir_p(DOSSIER_TMP)
+    end
+  end
+
+  def run
+    get_new_images
+    inputs = get_liste_inputs
+    styles = get_liste_styles
   end
 
   def get_new_images (debut = nil, fin = nil)
@@ -59,7 +74,7 @@ class ApiHektor
         File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
 
         # Upload image
-        File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_INPUT_DROPBOX + nom_image, f.read }
+        File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_INPUTS_DROPBOX + nom_image, f.read }
 
       rescue StandardError => e
         p e.message
@@ -88,6 +103,22 @@ class ApiHektor
         date: split[3],
         fichier: path.match(/[\w-]+\.jpg$/)[0]
       }
+  end
+
+  def envoyer_hektor (fichier_dropbox_input, fichier_dropbox_style)
+    fichier_input, body_input = @dropbox.api.download fichier_dropbox_input
+    fichier_style, body_style = @dropbox.api.download fichier_dropbox_style
+    
+    save(DOSSIER_TMP + fichier_input.name, body_input.to_s)
+    save(DOSSIER_TMP + fichier_style.name, body_style.to_s)
+
+    traiter_images DOSSIER_TMP + fichier_input.name, DOSSIER_TMP + fichier_style.name
+  end
+
+  def traiter_images (input, style)
+    c = Curl::Easy.new(URL_HEKTOR)
+    c.multipart_form_post = true
+    c.http_post(Curl::PostField.file('input_image', input), Curl::PostField.file('style_image', style))
   end
 
 end
