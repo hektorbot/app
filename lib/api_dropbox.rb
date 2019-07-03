@@ -10,7 +10,7 @@ class ApiDropbox
   end
 
   def get_inputs
-   p @api.list_folder("/inputs").map {|f| f.path_lower }
+    @api.list_folder("/inputs").map {|f| f.path_lower }
   end
 
   def get_styles

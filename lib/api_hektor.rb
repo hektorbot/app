@@ -11,7 +11,7 @@ require_relative 'api_dropbox.rb'
 DOSSIER_IMAGES_ARLO = Dir.pwd + "/data/" + "arlo_images" + "/"
 DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/" + "arlo_videos" + "/"
 
-DOSSIER_INPUT_DROPBOX = "/input/"
+DOSSIER_INPUT_DROPBOX = "/inputs/"
 
 ARLO_JPG_QUALITY = 1 #1-31, 1 : meilleur
 
@@ -71,7 +71,26 @@ class ApiHektor
     File.open(nom, 'w') { |f| f.write contenu }
   end
 
+  def get_liste_inputs
+    @dropbox.get_inputs.map { |i| extraire_donnees_nom i }
+  end
+
+  def get_liste_styles
+    @dropbox.get_styles.map { |i| extraire_donnees_nom i }
+  end
+
+  def extraire_donnees_nom path
+      split = path.match(/(\w+)-(\w+)-(\d{8})/)
+      {
+        path: path,
+        nom: split[1],
+        lieu: split[2],
+        date: split[3],
+        fichier: path.match(/[\w-]+\.jpg$/)[0]
+      }
+  end
+
 end
 
-hektor = ApiHektor.new
-hektor.get_new_images '20190626', '20190626'
+@hektor = ApiHektor.new
+#@hektor.get_new_images '20190626', '20190626'
