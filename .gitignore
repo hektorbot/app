@@ -134,6 +134,7 @@ typings/
 /test/version_tmp/
 /tmp/
 /data/
+/lib/data/
 
 # Used by dotenv library to load environment variables.
 # .env
