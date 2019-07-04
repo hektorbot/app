@@ -8,50 +8,9 @@
 
 	<link rel="stylesheet" type="text/css" href="/css/Skeleton-2.0.4/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/Skeleton-2.0.4/css/skeleton.css">
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
-
-    <% if @env["PATH_INFO"].match(/oeuvres/) %>
-	    <link rel="stylesheet" type="text/css" href="/css/oeuvres.css">
-        <script src="/lib/masonry.pkgd.min.js"></script>
-        <script src="/lib/grille-images.js"></script>
-    <% end %>
-
-    <% if @env["PATH_INFO"].match(/bio/) %>
-        <link rel="stylesheet" type="text/css" href="/css/bio.css">
-    <% end %>
-
-    <% if @env["PATH_INFO"].match(/paysages/) %>
-	    <link rel="stylesheet" type="text/css" href="/css/paysages.css">
-    <% end %>
-
-    <% if @env["PATH_INFO"].match(/info/) %>
-	    <link rel="stylesheet" type="text/css" href="/css/info.css">
-    <% end %>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-	<header class="container">
-		<div class="row middle">
-			<div class="one-third column">
-                <ul id="liens">
-                    <li style="margin-right: 25px;"><a href='/bio'>bio + démarche</a></li>
-                    <li><a href='/oeuvres'>oeuvres</a></li>
-                </ul>
-			</div>
-			<div class="one-third column">
-                <h1>
-                    <a href="/">
-                        <span class="helper"></span>
-                        <img id="logo" src="/images/logo_hektor.png">
-                    </a>
-                </h1>
-			</div>
-            <div class="one-third column">
-                <ul id="aide">
-                    <li><a href='/info'>?</a></li>
-                </ul>
-            </div>
-		</div>
-	</header>
     <%= yield %>
 </body>
 </html>
