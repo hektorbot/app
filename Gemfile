@@ -6,4 +6,5 @@ gem 'json'
 gem 'arlo'
 gem 'streamio-ffmpeg'
 gem 'whenever', require: false
+gem 'dropbox-sdk-v2'
 gem 'rake'

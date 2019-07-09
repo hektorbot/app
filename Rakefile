@@ -3,7 +3,7 @@ task :update_cron do
 end
 
 task :create_image do
-  require "./lib/api_hektor"
+  require_relative "./lib/api_hektor"
   hektor = ApiHektor.new
-  hektor.test
+  hektor.run
 end
