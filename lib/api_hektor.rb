@@ -52,7 +52,7 @@ class ApiHektor
     get_new_images
 
     # Selectionner un input
-    input = selectionner_input get_liste_inputs
+    input = selectionner_input
     
     # Selectionner un style
     style = selectionner_style get_liste_styles
@@ -94,21 +94,19 @@ class ApiHektor
     end
   end
 
-  def selectionner_input (inputs = nil)
-    inputs ||= get_liste_inputs
+  def selectionner_input
+    inputs = get_liste_inputs
     abort "Aucun input" + Time.now.to_s if inputs.count == 0
-
+    
     unused = inputs.select { |i| not is_used? i }
-    p unused
 
     # Si tous les inputs ont ete utilises
     if unused.count == 0 
       inputs.each {|i| set_unused i}
-      selectionner_input get_liste_inputs
     end
 
     #Si un style n'est pas utiliser, le selectionner et updater
-    set_used unused.sample
+    set_used unused.sample || selectionner_input
   end
 
   def selectionner_style (styles)
@@ -120,6 +118,7 @@ class ApiHektor
   end
 
   def create_used_path (path)
+    p "CREATING USED " + path
     parties = path.match /\/(\w+)\/([\w-]+\.\w{3})/
     "/" + parties[1] + "/" + USED_PREFIX + parties[2]
   end
@@ -134,6 +133,7 @@ class ApiHektor
   end
 
   def set_used (path)
+    p "SETTING_USED USED " + path
     new = create_used_path path
     @dropbox.renommer path, new
     new
