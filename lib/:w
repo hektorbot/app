@@ -99,22 +99,24 @@ class ApiHektor
       inputs.each {|i| set_unused i[:path] }
     end
 
-    #Si un style n'est pas utilise, le selectionner et updater
-    unused.count > 0 ? set_used(unused.sample[:path]) : selectionner_input
+    #Si un style n'est pas utiliser, le selectionner et updater
+    set_used unused.sample[:path] || selectionner_input
   end
 
   def selectionner_style
     styles = get_liste_styles
     abort "Aucun style" + Time.now.to_s if styles.count == 0
 
+    p styles
     unused = styles.select { |s| not is_used? s[:path] }
+    p unused
 
     # Si tous les styles ont ete utilises
     if unused.count == 0 
       styles.each {|s| set_unused s[:path]}
     end
-
-    unused.count > 0 ? set_used(unused.sort {|a,b| a[:created] <=> b[:created] }.first[:path]) : selectionner_style
+    
+    set_used unused.sample || selectionner_style
   end
 
   def save (nom, contenu)
@@ -122,11 +124,13 @@ class ApiHektor
   end
 
   def create_used_path (path)
+    p "CREATING USED " + path
     parties = path.match /\/(\w+)\/([\w-]+\.\w{3})/
     "/" + parties[1] + "/" + USED_PREFIX + parties[2]
   end
 
   def create_unused_path (path)
+    p "CREATING UNUSED " + path
     parties = path.match /\/(\w+)\/#{USED_PREFIX}([\w-]+\.\w{3})/
     "/" + parties[1] + "/"  + parties[2]
   end
@@ -160,7 +164,6 @@ class ApiHektor
     save(DOSSIER_TMP + fichier_input.name, body_input.to_s)
     save(DOSSIER_TMP + fichier_style.name, body_style.to_s)
 
-    p "Fusion de : " + fichier_input.name + " & " + fichier_style.name
     traiter_images DOSSIER_TMP + fichier_input.name, DOSSIER_TMP + fichier_style.name
   end
 
@@ -168,7 +171,8 @@ class ApiHektor
     c = Curl::Easy.new(URL_HEKTOR)
     c.multipart_form_post = true
     c.http_post(Curl::PostField.file('input_image', input), Curl::PostField.file('style_image', style))
-    p c.body_str
   end
 
 end
+
+@hektor = ApiHektor.new

@@ -10,11 +10,11 @@ class ApiDropbox
   end
 
   def get_inputs
-    @api.list_folder("/inputs").map {|f| f.path_lower }
+    @api.list_folder("/inputs").map {|f| { path: f.path_lower, created: f.client_modified } }
   end
 
   def get_styles
-    @api.list_folder("/styles").map {|f| f.path_lower }
+    @api.list_folder("/styles").map {|f| { path: f.path_lower, created: f.client_modified } }
   end
 
   def renommer (old, new)
