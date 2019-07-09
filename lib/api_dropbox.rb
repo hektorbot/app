@@ -17,8 +17,8 @@ class ApiDropbox
     @api.list_folder("/styles").map {|f| f.path_lower }
   end
 
-  def marquer_utilise (path)
-    @api.move(path, path + "-L" + Time.now.to_i)
+  def renommer (old, new)
+    @api.move(old, new)
   end
 
 end

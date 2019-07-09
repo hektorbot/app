@@ -13,11 +13,15 @@ DOSSIER_VIDEOS_ARLO = Dir.pwd + "/data/arlo_videos/"
 DOSSIER_TMP = Dir.pwd + "/data/tmp/"
 
 DOSSIER_INPUTS_DROPBOX = "/inputs/"
-DOSSIER_STYLES_DROPBOX = "/inputs/"
+DOSSIER_STYLES_DROPBOX = "/styles/"
 
 ARLO_JPG_QUALITY = 1 #1-31, 1 : meilleur
 
 URL_HEKTOR = "https://api.hektor.ca/rest/artworks/?format=json"
+
+USED_PREFIX = "used_"
+
+REGEXP_NOM_FICHIER = /\/\w+\/(\w+\.\w{3})/
 
 class ApiHektor
   attr_accessor :arlo, :dropbox
@@ -26,7 +30,7 @@ class ApiHektor
     Dotenv.load "../.env"
     @arlo = ApiArlo.new
     @dropbox = ApiDropbox.new
-    
+
     # Creer le dossier images s'il n'existe pas
     unless File.directory?(DOSSIER_IMAGES_ARLO)
       FileUtils.mkdir_p(DOSSIER_IMAGES_ARLO)
@@ -44,9 +48,17 @@ class ApiHektor
   end
 
   def run
+    #Ajouter les nouvelles images
     get_new_images
-    inputs = get_liste_inputs
-    styles = get_liste_styles
+
+    # Selectionner un input
+    input = selectionner_input get_liste_inputs
+    
+    # Selectionner un style
+    style = selectionner_style get_liste_styles
+
+    # Envoyer a Hektor
+    envoyer_hektor input, style
   end
 
   def get_new_images (debut = nil, fin = nil)
@@ -74,7 +86,7 @@ class ApiHektor
         File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
 
         # Upload image
-        File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_INPUTS_DROPBOX + nom_image, f.read }
+        File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_STYLES_DROPBOX + nom_image, f.read }
 
       rescue StandardError => e
         p e.message
@@ -82,27 +94,61 @@ class ApiHektor
     end
   end
 
+  def selectionner_input (inputs = nil)
+    inputs ||= get_liste_inputs
+    abort "Aucun input" + Time.now.to_s if inputs.count == 0
+
+    unused = inputs.select { |i| not is_used? i }
+    p unused
+
+    # Si tous les inputs ont ete utilises
+    if unused.count == 0 
+      inputs.each {|i| set_unused i}
+      selectionner_input get_liste_inputs
+    end
+
+    #Si un style n'est pas utiliser, le selectionner et updater
+    set_used unused.sample
+  end
+
+  def selectionner_style (styles)
+    styles.sample
+  end
+
   def save (nom, contenu)
     File.open(nom, 'w') { |f| f.write contenu }
   end
 
+  def create_used_path (path)
+    parties = path.match /\/(\w+)\/([\w-]+\.\w{3})/
+    "/" + parties[1] + "/" + USED_PREFIX + parties[2]
+  end
+
+  def create_unused_path (path)
+    parties = path.match /\/(\w+)\/#{USED_PREFIX}([\w-]+\.\w{3})/
+    "/" + parties[1] + "/"  + parties[2]
+  end
+
+  def is_used? (path)
+    path.match /\/\w+\/#{USED_PREFIX}[\w-]+\.\w{3}/
+  end
+
+  def set_used (path)
+    new = create_used_path path
+    @dropbox.renommer path, new
+    new
+  end
+
+  def set_unused (path)
+    @dropbox.renommer path, create_unused_path(path)
+  end
+
   def get_liste_inputs
-    @dropbox.get_inputs.map { |i| extraire_donnees_nom i }
+    @dropbox.get_inputs
   end
 
   def get_liste_styles
-    @dropbox.get_styles.map { |i| extraire_donnees_nom i }
-  end
-
-  def extraire_donnees_nom path
-      split = path.match(/(\w+)-(\w+)-(\d{8})/)
-      {
-        path: path,
-        nom: split[1],
-        lieu: split[2],
-        date: split[3],
-        fichier: path.match(/[\w-]+\.jpg$/)[0]
-      }
+    @dropbox.get_styles
   end
 
   def envoyer_hektor (fichier_dropbox_input, fichier_dropbox_style)
@@ -124,4 +170,3 @@ class ApiHektor
 end
 
 @hektor = ApiHektor.new
-#@hektor.get_new_images '20190626', '20190626'
