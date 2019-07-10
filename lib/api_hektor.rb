@@ -49,13 +49,13 @@ class ApiHektor
 
   def run
     #Ajouter les nouvelles images
-    get_new_images
+    import_from_arlo
 
     # Envoyer a Hektor
     envoyer_hektor selectionner_input, selectionner_style
   end
 
-  def get_new_images (debut = nil, fin = nil)
+  def import_from_arlo (debut = nil, fin = nil)
 
     #init
     time = (Time.now).strftime("%Y%m%d")
@@ -160,6 +160,8 @@ class ApiHektor
     save(DOSSIER_TMP + fichier_input.name, body_input.to_s)
     save(DOSSIER_TMP + fichier_style.name, body_style.to_s)
 
+    p "--------------------------------------------------"
+    p Time.now.to_s
     p "Fusion de : " + fichier_input.name + " & " + fichier_style.name
     traiter_images DOSSIER_TMP + fichier_input.name, DOSSIER_TMP + fichier_style.name
   end
