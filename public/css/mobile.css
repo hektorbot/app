@@ -1,0 +1,61 @@
+body {
+    font-family: 'IBM Plex Mono';
+    color: ;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+.black { color: #0d0d0d; } .vert { color: #e0f2e9; }
+
+header {
+    height: 100px;
+}
+
+#hamburger {
+    width: 75px;
+    float: left;
+    margin-top: 25px;
+    text-align: center;
+}
+
+#hamburger img {
+    width: 50px;
+}
+
+#aide, #sections-information {
+    display: none;
+}
+
+#logo {
+    margin-left: -25px; /* la moitie de la largeur du hamburger */
+    height: 50px;
+}
+
+#menu {
+    float: right;
+    width: calc(100% - 75px);
+}
+
+.credits {
+    margin-top : 40px;
+    border-top: 2px solid #0d0d0d;
+    border-color: #e0f2e9;
+
+    padding-top: 5px;
+
+    display: inline-block;
+
+    font-size: 0.8em;
+}
+
+a {
+    text-decoration: none;
+    color: #0d0d0d;
+}
+
+/* -------- INDEX --------- */
+#splash img {
+    width: 100%;
+}
+

@@ -1,0 +1,43 @@
+@media screen and (min-width: 48em) {
+    header {
+        height: 180px;
+    }
+
+    #hamburger {
+        display: none;
+    }
+
+    #aide, #sections-information {
+        display: block;
+    }
+
+    #menu {
+        width: 100%;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    #aide ul li {
+        float: right;
+        display: inline;
+    }
+
+    footer {
+        height: 180px;
+    }
+
+    a:hover {
+        font-weight: bold;
+        color: #0d0d0d;
+    }
+
+    .helper {
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+}
+
+

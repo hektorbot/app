@@ -1,20 +1,24 @@
 #biographie {
-    display: grid;
-    grid-template-columns: 47% 47%;
-    grid-gap: 6%;
-
-    text-align: justify;
-    margin-bottom: 60px;
+    text-align: center;
+    padding: 20px;
 }
 
-.item div {
+#biographie .item * {
     margin-bottom: 10px;
 }
 
-@media only screen and (max-width: 400px) {
+@media screen and (min-width: 48em) {
     #biographie {
+        display: grid;
         grid-template-columns: 47% 47%;
         grid-gap: 6%;
+
+        text-align: justify;
+        margin-bottom: 60px;
+    }
+
+    .item div {
+        margin-bottom: 10px;
     }
 }
 

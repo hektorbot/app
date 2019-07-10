@@ -6,7 +6,11 @@
 <script type="text/javascript">
     var oeuvres = <%= @oeuvres %>,
         grid, msnry,
-        nombre_colonnes = 6,
         gutter = 10,
+        images_at_loading = 50,
+        images_at_scroll = 20,
         chargement_termine = false;
+
+    var largeur = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var nombre_colonnes = largeur >= 500 ? 6 : 1;
 </script>
