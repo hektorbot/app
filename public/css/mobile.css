@@ -3,13 +3,14 @@ body {
     color: ;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 5px;
+    padding: 20px;
 }
 
 .black { color: #0d0d0d; } .vert { color: #e0f2e9; }
 
 header {
     height: 100px;
+    position: relative;
 }
 
 #hamburger {
@@ -27,8 +28,14 @@ header {
     display: none;
 }
 
+.centrerXY {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 #logo {
-    margin-left: -25px; /* la moitie de la largeur du hamburger */
     height: 50px;
 }
 

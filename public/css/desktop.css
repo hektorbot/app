@@ -7,8 +7,10 @@
         display: none;
     }
 
-    #aide, #sections-information {
+    #aide, #sections-information, #logo-container {
         display: block;
+        position: relative;
+        height: 180px;
     }
 
     #menu {
@@ -19,9 +21,29 @@
         list-style-type: none;
     }
 
-    #aide ul li {
-        float: right;
+    .centrerY {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .centrerXY {
+        transform: translate(-50%, -25%);
+    }
+
+    #logo {
+        margin: 0;
+        height: inherit;
+        text-align: center;
+        width: 60%;
+    }
+
+    #sections-information li {
         display: inline;
+    }
+
+    #aide li {
+        float: right;
     }
 
     footer {
@@ -31,12 +53,6 @@
     a:hover {
         font-weight: bold;
         color: #0d0d0d;
-    }
-
-    .helper {
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
     }
 }
 
