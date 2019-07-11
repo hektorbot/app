@@ -44,6 +44,7 @@ module.exports = shipit => {
         .map(file => `ln -s ${path.join(shipit.config.deployTo, file)}`)
         .join(";")}
       bundler install;
+      rake update_cron;
       sudo systemctl restart frontend-${shipit.environment}.service;
       `);
   });
