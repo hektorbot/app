@@ -3,12 +3,26 @@ body {
 }
 
 #pratique {
-    display: grid;
-    grid-template-columns: 47% 47%;
-    grid-gap: 6%;
+    text-align: center;
+}
 
-    text-align: justify;
-    margin-bottom: 30px;
+#pratique .item * {
+    margin-bottom: 10px;
+}
+
+.credits {
+    border-color: white;
+}
+
+@media screen and (min-width: 48em) {
+    #pratique {
+        display: grid;
+        grid-template-columns: 47% 47%;
+        grid-gap: 6%;
+
+        text-align: justify;
+        margin-bottom: 30px;
+    }
 }
 
 h2 {
@@ -18,6 +32,3 @@ h2 {
     margin-bottom: 5px;
 }
 
-.credits {
-    border-color: white;
-}

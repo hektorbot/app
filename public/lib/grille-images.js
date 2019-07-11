@@ -10,7 +10,7 @@ function add_images (n) {
     for ( var i = 0; i < n; i++  ) {
         var elem = getItemElement();
         fragment.appendChild( elem  );
-        elems.push( elem  );
+        elems.push(elem);
     }
 
     grid.appendChild(fragment);
@@ -42,7 +42,7 @@ function ajouter_images () {
     if(chargement_termine) { return; }
 
     // Si ont est a + de 75% de la page
-    if(get_height_ecran() > 0.75 * window.scrollY){ add_images(5); }
+    if(get_height_ecran() > 0.75 * window.scrollY){ add_images(images_at_scroll); }
 
     window.addEventListener('scroll', ajouter_images);
 }
@@ -87,7 +87,7 @@ window.onload = function () {
         gutter: gutter
     });
 
-    add_images(10);
+    add_images(images_at_loading);
     section.style.minHeight = (get_height_ecran() + 100) + "px";
 
     window.addEventListener('scroll', ajouter_images);

@@ -1,0 +1,59 @@
+@media screen and (min-width: 48em) {
+    header {
+        height: 180px;
+    }
+
+    #hamburger {
+        display: none;
+    }
+
+    #aide, #sections-information, #logo-container {
+        display: block;
+        position: relative;
+        height: 180px;
+    }
+
+    #menu {
+        width: 100%;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .centrerY {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .centrerXY {
+        transform: translate(-50%, -25%);
+    }
+
+    #logo {
+        margin: 0;
+        height: inherit;
+        text-align: center;
+        width: 60%;
+    }
+
+    #sections-information li {
+        display: inline;
+    }
+
+    #aide li {
+        float: right;
+    }
+
+    footer {
+        height: 180px;
+    }
+
+    a:hover {
+        font-weight: bold;
+        color: #0d0d0d;
+    }
+}
+
+
