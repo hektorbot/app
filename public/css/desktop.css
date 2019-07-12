@@ -3,6 +3,10 @@
         height: 180px;
     }
 
+    a {
+        font-family: 'IBM Plex Mono';
+    }
+
     #menu-responsive, #hamburger {
         display: none;
     }
