@@ -1,0 +1,70 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.6.0)
+      public_suffix (>= 2.0.2, < 4.0)
+    arlo (0.0.8)
+    chronic (0.10.2)
+    curb (0.9.10)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.7.2)
+    dropbox-sdk-v2 (0.0.3)
+      http (~> 2.0)
+    ffi (1.11.1)
+    http (2.2.2)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 1.0.1)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    http-form_data (1.0.3)
+    http_parser.rb (0.6.0)
+    json (2.2.0)
+    multi_json (1.13.1)
+    mustermann (1.0.3)
+    public_suffix (3.1.1)
+    rack (2.0.7)
+    rack-protection (2.0.5)
+      rack
+    rake (12.3.2)
+    rb-fsevent (0.10.3)
+    rb-inotify (0.10.0)
+      ffi (~> 1.0)
+    sass (3.7.4)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+    sinatra (2.0.5)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.5)
+      tilt (~> 2.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
+    tilt (2.0.9)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.6)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  arlo
+  curb
+  dotenv
+  dropbox-sdk-v2
+  json
+  rake
+  sass
+  sinatra
+  streamio-ffmpeg
+  whenever
+
+BUNDLED WITH
+   2.0.1
