@@ -1,10 +1,11 @@
 require 'sinatra'
 require 'curb'
 require 'json'
+  
+LOGO = "/images/logo_hektor.png"
+LOGO_VERT = "/images/logo_vert_hektor.png"
 
 class App < Sinatra::Base
-  LOGO = "/images/logo_hektor.png"
-  LOGO_VERT = "/images/logo_vert_hektor.png"
 
   def initialize
     @logo = LOGO_VERT
