@@ -13,5 +13,8 @@
     "dotenv": "^8.0.0",
     "shipit-cli": "^4.2.0",
     "shipit-deploy": "^4.1.4"
+  },
+  "resolutions": {
+    "lodash": "4.17.13"
   }
 }
