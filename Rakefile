@@ -1,6 +1,7 @@
 task :update_cron do
   sh "crontab -r"
   sh "crontab -l"
+  sh "mkdir log"
   sh "whenever --update-crontab"
 end
 
