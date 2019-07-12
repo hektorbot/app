@@ -15,8 +15,8 @@ header {
 
 #menu-responsive {
     position: absolute;
-    left: 0;
-    width: 100%;
+    left: 7%;
+    right: 0;
     height: inherit;
 
     font-size: 0.8em;
@@ -28,7 +28,12 @@ header {
 
     z-index: 10;
 
-    transition: opacity 2s;
+    transition: opacity 1s;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .affiche {
