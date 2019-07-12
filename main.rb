@@ -3,6 +3,12 @@ require 'curb'
 require 'json'
 
 class App < Sinatra::Base
+  LOGO = "/images/logo_hektor.png"
+  LOGO_VERT = "/images/logo_vert_hektor.png"
+
+  def initialize
+    @logo = LOGO_VERT
+  end
 
   get '/' do
     @image = get_last_img
@@ -10,6 +16,7 @@ class App < Sinatra::Base
   end
 
   get '/info' do
+    @logo = LOGO
     erb :info
   end
 
