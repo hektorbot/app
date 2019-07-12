@@ -3,7 +3,7 @@
         height: 180px;
     }
 
-    #hamburger {
+    #menu-responsive, #hamburger {
         display: none;
     }
 
@@ -19,12 +19,6 @@
 
     ul {
         list-style-type: none;
-    }
-
-    .centrerY {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
     }
 
     .centrerXY {

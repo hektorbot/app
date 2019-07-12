@@ -13,19 +13,45 @@ header {
     position: relative;
 }
 
-#hamburger {
-    width: 75px;
-    float: left;
-    margin-top: 25px;
-    text-align: center;
+#menu-responsive {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: inherit;
+
+    font-size: 0.8em;
+
+    visibility: hidden;
+    opacity: 0;
+
+    background-color: white;
+
+    z-index: 10;
+
+    transition: opacity 2s;
+}
+
+.affiche {
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 #hamburger img {
-    width: 50px;
+    width: 20px;
 }
 
 #aide, #sections-information {
     display: none;
+}
+
+.centrerY {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.centrerY-texte {
+    line-height: 100px;
 }
 
 .centrerXY {
