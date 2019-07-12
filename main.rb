@@ -8,6 +8,7 @@ LOGO_VERT = "/images/logo_vert_hektor.png"
 class App < Sinatra::Base
 
   def initialize
+    super()
     @logo = LOGO_VERT
   end
 
