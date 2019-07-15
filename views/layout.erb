@@ -59,8 +59,8 @@
         <div class="pure-g">
             <div id="sections-information" class="pure-u-1-3">
                 <ul class="centrerY" style="padding: 0;">
-                    <li style="margin-right: 25px;"><a href='/bio'>bio + démarche</a></li>
-                    <li><a href='/oeuvres'>oeuvres</a></li>
+                    <li style="margin-right: 25px;"><a href='/bio' <%= @env["PATH_INFO"].match(/bio/) ? "class='vert'" : ''%>>bio + démarche</a></li>
+                    <li><a href='/oeuvres' <%= @env["PATH_INFO"].match(/oeuvres/) ? "class='vert'" : ''%>>oeuvres</a></li>
                 </ul>
             </div>
             <div id="logo-container" class="pure-u-md-1-3">
@@ -72,7 +72,7 @@
             </div>
             <div id="aide" class="pure-u-1-3">
                 <ul class="centrerY" style="padding: 0; right: 0;">
-                    <li><a href='/info'>?</a></li>
+                    <li><a href='/info' <%= @env["PATH_INFO"].match(/info/) ? "class='blanc'" : ''%>>?</a></li>
                 </ul>
             </div>
         </div>

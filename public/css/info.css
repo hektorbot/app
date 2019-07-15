@@ -3,7 +3,9 @@ body, #menu-responsive {
 }
 
 #pratique {
-    text-align: center;
+    text-align: left;
+    font-size: 0.9em;
+    line-height: 1.6em;
 }
 
 #pratique .item * {

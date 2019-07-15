@@ -1,5 +1,7 @@
 #biographie {
-    text-align: center;
+    text-align: left;
+    font-size: 0.9em;
+    line-height: 1.6em;
 }
 
 #biographie .item * {

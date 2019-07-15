@@ -6,7 +6,7 @@ body {
     padding: 20px;
 }
 
-.black { color: #0d0d0d; } .vert { color: #e0f2e9; }
+.black { color: #0d0d0d; } .vert { color: #e0f2e9; } .blanc { color: white; }
 
 header {
     height: 100px;
@@ -100,5 +100,9 @@ a {
 /* -------- INDEX --------- */
 #splash img {
     width: 100%;
+}
+
+#splash h2 {
+    font-size: 0.6em;
 }
 
