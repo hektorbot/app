@@ -53,6 +53,9 @@ class ApiHektor
 
     # Envoyer a Hektor
     envoyer_hektor selectionner_input, selectionner_style
+
+    # Nettoyer
+    FileUtils.rm_rf("#{DOSSIER_TMP}.", secure: true)
   end
 
   def import_from_arlo (debut = nil, fin = nil)

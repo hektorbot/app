@@ -32,7 +32,12 @@ class App < Sinatra::Base
   end
 
   get '/paysages/:image' do
-    @image = get_image(params['image'])['full']
+    original = get_image(params['image'])
+    @image = original['full']
+    images = get_all_img.map { |i| {id: i["id"], slug: i["slug"]}  }.sort {|a,b| a[:id] <=> b[:id]}
+    index_image = images.find_index { |e| e[:id] == original['id'] }
+    @prev = "/paysages/" + images[index_image - 1][:slug]
+    @next = "/paysages/" + images[index_image + 1][:slug]
     erb :images
   end
 
