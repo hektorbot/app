@@ -44,6 +44,11 @@ header {
 
 a {
     font-family: 'IBM Plex Mono';
+    color: #0d0d0d;
+}
+
+header a {
+    text-decoration: none;
 }
 
 #hamburger img {
@@ -90,11 +95,6 @@ a {
     display: inline-block;
 
     font-size: 0.8em;
-}
-
-a {
-    text-decoration: none;
-    color: #0d0d0d;
 }
 
 /* -------- INDEX --------- */
