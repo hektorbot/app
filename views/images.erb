@@ -1,17 +1,17 @@
 <section id="splash">
     <div id="banner">
-        <div id="nav-left" class="nav-arrow">
-            <% if @prev %>
+        <% if @prev %>
+            <div id="nav-left" class="nav-arrow">
                 <a href="<%= @prev %>"><img src="/images/arrow.svg" alt="fleche de navigation" style="transform: rotate(180deg);"></a>
-            <% end %>
-        </div>
-        <div class="pure-u-md-10-12">
-            <img src="<%= @image %>" alt="Paysage de Saint-Camille par l’artiste Hektor">
-        </div>
-        <div id="nav-right" class="nav-arrow">
-            <% if @prev %>
+            </div>
+        <% end %>
+        <% if @next %>
+            <div id="nav-right" class="nav-arrow">
                 <a href="<%= @next %>"><img src="/images/arrow.svg" alt="fleche de navigation"></a>
-            <% end %>
+            </div>
+        <% end %>
+        <div id="presentation-image">
+            <img src="<%= @image %>" alt="Paysage de Saint-Camille par l’artiste Hektor">
         </div>
     </div>
     <h2 style="font-weight: normal;">

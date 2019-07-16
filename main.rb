@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'curb'
 require 'json'
-  
+
 LOGO = "/images/logo_hektor.png"
 LOGO_VERT = "/images/logo_vert_hektor.png"
 
@@ -36,8 +36,8 @@ class App < Sinatra::Base
     @image = original['full']
     images = get_all_img.map { |i| {id: i["id"], slug: i["slug"]}  }.sort {|a,b| a[:id] <=> b[:id]}
     index_image = images.find_index { |e| e[:id] == original['id'] }
-    @prev = "/paysages/" + images[index_image - 1][:slug]
-    @next = "/paysages/" + images[index_image + 1][:slug]
+    @prev = "/paysages/" + images[index_image - 1][:slug] if index_image > 0
+    @next = "/paysages/" + images[index_image + 1][:slug] if index_image < images.count - 1
     erb :images
   end
 
