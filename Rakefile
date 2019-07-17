@@ -1,4 +1,5 @@
 task :update_cron do
+  sh "crontab -r"
   sh "whenever --update-crontab"
 end
 
