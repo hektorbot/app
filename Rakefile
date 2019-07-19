@@ -1,6 +1,9 @@
 task :update_cron do
-  sh "crontab -r"
-  sh "whenever --update-crontab"
+  begin
+    sh "crontab -r"
+  ensure
+    sh "whenever --update-crontab"
+  end
 end
 
 task :create_image do
