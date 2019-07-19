@@ -23,6 +23,13 @@ USED_PREFIX = "used_"
 
 REGEXP_NOM_FICHIER = /\/\w+\/(\w+\.\w{3})/
 
+MINUTE = 60
+HEURE = 60*MINUTE
+DECALAGE_TZ_ARLO = 4*HEURE
+DECALAGE_TZ_HEKTOR = 4*HEURE
+
+TEMPS_RECENT = 2*MINUTE
+
 class ApiHektor
   attr_accessor :arlo, :dropbox
 
@@ -47,12 +54,22 @@ class ApiHektor
     end
   end
 
-  def run
-    #Ajouter les nouvelles images
-    import_from_arlo
+  def run (forcer_creation = false)
 
-    # Envoyer a Hektor
-    envoyer_hektor selectionner_input, selectionner_style
+    # Envoyer a Hektor si de nouvelles images sont presentes
+
+    # Test pour de nouvelles images
+    nouvelles_images = import_from_arlo
+
+    # Envoyer seulement si nouvelle image
+    if nouvelles_images.count > 0
+      envoyer_hektor selectionner_input, set_used(nouvelles_images.first)
+    elsif forcer_creation && nouvelles_images.count == 0
+      p "creation forcee"
+      envoyer_hektor selectionner_input, selectionner_style
+    else
+      p "Aucune nouvelle image"
+    end
 
     # Nettoyer
     FileUtils.rm_rf("#{DOSSIER_TMP}.", secure: true)
@@ -64,12 +81,21 @@ class ApiHektor
     time = (Time.now).strftime("%Y%m%d")
     debut ||= time
     fin ||= time
+    images = []
 
-    # Videos de la journee
-    videos = @arlo.get_videos(debut, fin)
+    # Videos recents
+    videos = @arlo.get_videos(debut, fin).select { |v| v[:datetime] > (Time.now - (DECALAGE_TZ_HEKTOR + TEMPS_RECENT))}
+    # Liste styles
+    styles = get_liste_styles
+
     videos.each do |v|
       nom_video = v[:id] + "-" + v[:camera] + "-" + v[:date] + ".mp4"
       nom_image = v[:id] + "-" + v[:camera] + "-" + v[:date] + ".jpg"
+      nom_image.downcase!
+
+      # Si l'image existe deja, on passe
+      next if styles.any? {|s| s[:path].downcase.include? nom_image }
+
       begin
 
         # Telecharger videos
@@ -85,16 +111,21 @@ class ApiHektor
         # Upload image
         File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_STYLES_DROPBOX + nom_image, f.read }
 
+        #Liste des images crees
+        images.push (DOSSIER_STYLES_DROPBOX + nom_image)
+
       rescue StandardError => e
         p e.message
       end
     end
+
+    return images
   end
 
   def selectionner_input
     inputs = get_liste_inputs
     abort "Aucun input" + Time.now.to_s if inputs.count == 0
-    
+
     unused = inputs.select { |i| not is_used? i[:path] }
 
     # Si tous les inputs ont ete utilises
@@ -177,3 +208,4 @@ class ApiHektor
   end
 
 end
+

@@ -6,5 +6,5 @@ end
 task :create_image do
   require_relative "./lib/api_hektor"
   hektor = ApiHektor.new
-  hektor.run
+  hektor.run true
 end

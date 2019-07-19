@@ -19,6 +19,7 @@ class ApiArlo
         video: v["presignedContentUrl"],
         secondes: v["mediaDurationSecond"].to_i,
         camera: cameras.select {|c| c["deviceId"] == v["deviceId"] }.first["deviceName"],
+        datetime: Time.at(v["localCreatedDate"]/1000) - DECALAGE_TZ_ARLO,
         date: v["createdDate"]
       }
     end
