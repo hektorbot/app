@@ -102,7 +102,7 @@ header a {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
+    max-height: 70vh;
 }
 
 #splash img {
@@ -110,7 +110,7 @@ header a {
     max-width: 100%;
 }
 
-#splash h2 {
+footer h2 {
     font-size: 0.5em;
 }
 
