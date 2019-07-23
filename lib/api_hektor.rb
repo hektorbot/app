@@ -28,7 +28,7 @@ HEURE = 60*MINUTE
 DECALAGE_TZ_ARLO = 4*HEURE
 DECALAGE_TZ_HEKTOR = 4*HEURE
 
-TEMPS_RECENT = 2*MINUTE
+TEMPS_RECENT = 1*HEURE
 
 class ApiHektor
   attr_accessor :arlo, :dropbox
@@ -59,7 +59,7 @@ class ApiHektor
     # Envoyer a Hektor si de nouvelles images sont presentes
 
     # Test pour de nouvelles images
-    nouvelles_images = import_from_arlo
+    nouvelles_images = import_last_new_from_arlo
 
     # Envoyer seulement si nouvelle image
     if nouvelles_images.count > 0
@@ -75,7 +75,7 @@ class ApiHektor
     FileUtils.rm_rf("#{DOSSIER_TMP}.", secure: true)
   end
 
-  def import_from_arlo (debut = nil, fin = nil)
+  def import_last_new_from_arlo (debut = nil, fin = nil)
 
     #init
     time = (Time.now).strftime("%Y%m%d")
@@ -85,38 +85,36 @@ class ApiHektor
 
     # Videos recents
     videos = @arlo.get_videos(debut, fin).select { |v| v[:datetime] > (Time.now - (DECALAGE_TZ_HEKTOR + TEMPS_RECENT))}
+
     # Liste styles
     styles = get_liste_styles
 
+    # La boucle break des qu'un video a ete importe
     videos.each do |v|
-      nom_video = v[:id] + "-" + v[:camera] + "-" + v[:date] + ".mp4"
-      nom_image = v[:id] + "-" + v[:camera] + "-" + v[:date] + ".jpg"
-      nom_image.downcase!
+      nom_video = create_nom_video v
+      nom_image = create_nom_image v
 
       # Si l'image existe deja, on passe
-      next if styles.any? {|s| s[:path].downcase.include? nom_image }
+      next if styles.reverse.any? {|s| s[:path].downcase.include? nom_image }
 
-      begin
+      # Telecharger videos
+      save(DOSSIER_VIDEOS_ARLO + nom_video, Curl.get(v[:video]).body)
 
-        # Telecharger videos
-        save(DOSSIER_VIDEOS_ARLO + nom_video, Curl.get(v[:video]).body)
+      # Creation de l'image
+      movie = FFMPEG::Movie.new(DOSSIER_VIDEOS_ARLO + nom_video)
+      movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: (v[:secondes] / 2), quality: ARLO_JPG_QUALITY)
 
-        # Creation de l'image
-        movie = FFMPEG::Movie.new(DOSSIER_VIDEOS_ARLO + nom_video)
-        movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: (v[:secondes] / 2), quality: ARLO_JPG_QUALITY)
+      # Suppression du video
+      File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
 
-        # Suppression du video
-        File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
+      # Upload image
+      File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_STYLES_DROPBOX + nom_image, f.read }
 
-        # Upload image
-        File.open(DOSSIER_IMAGES_ARLO + nom_image, 'r') { |f| @dropbox.api.upload DOSSIER_STYLES_DROPBOX + nom_image, f.read }
+      #Liste des images crees
+      images.push (DOSSIER_STYLES_DROPBOX + nom_image)
 
-        #Liste des images crees
-        images.push (DOSSIER_STYLES_DROPBOX + nom_image)
-
-      rescue StandardError => e
-        p e.message
-      end
+      # Une importation a ete faite
+      break
     end
 
     return images
@@ -149,6 +147,14 @@ class ApiHektor
     end
 
     unused.count > 0 ? set_used(unused.sort {|a,b| a[:created] <=> b[:created] }.first[:path]) : selectionner_style
+  end
+
+  def create_nom_video (v) 
+    (v[:id] + "-" + v[:camera] + "-" + v[:date] + ".mp4").downcase
+  end
+
+  def create_nom_image (v) 
+    (v[:id] + "-" + v[:camera] + "-" + v[:date] + ".jpg").downcase
   end
 
   def save (nom, contenu)
@@ -190,7 +196,7 @@ class ApiHektor
   def envoyer_hektor (fichier_dropbox_input, fichier_dropbox_style)
     fichier_input, body_input = @dropbox.api.download fichier_dropbox_input
     fichier_style, body_style = @dropbox.api.download fichier_dropbox_style
-    
+
     save(DOSSIER_TMP + fichier_input.name, body_input.to_s)
     save(DOSSIER_TMP + fichier_style.name, body_style.to_s)
 
@@ -204,7 +210,6 @@ class ApiHektor
     c = Curl::Easy.new(URL_HEKTOR)
     c.multipart_form_post = true
     c.http_post(Curl::PostField.file('input_image', input), Curl::PostField.file('style_image', style))
-    p c.body_str
   end
 
 end
