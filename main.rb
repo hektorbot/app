@@ -5,7 +5,7 @@ require 'json'
 LOGO = "/images/logo_hektor.png"
 LOGO_VERT = "/images/logo_vert_hektor.png"
 
-#class App < Sinatra::Base
+class App < Sinatra::Base
 
   def initialize
     super()
@@ -53,5 +53,5 @@ LOGO_VERT = "/images/logo_vert_hektor.png"
     JSON.parse(Curl.get('https://api.hektor.ca/rest/artworks/' + image + '/').body)
   end
 
-#  run! if __FILE__ == $0
-#end
+  run! if __FILE__ == $0
+end
