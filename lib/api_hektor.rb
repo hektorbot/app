@@ -19,7 +19,7 @@ ARLO_JPG_QUALITY = 1 #1-31, 1 : meilleur
 
 URL_HEKTOR = "https://api.hektor.ca/rest/artworks/?format=json"
 
-USED_PREFIX = "used_"
+USED_PREFIX = "utilisee_"
 
 REGEXP_NOM_FICHIER = /\/\w+\/(\w+\.\w{3})/
 
@@ -102,7 +102,7 @@ class ApiHektor
 
       # Creation de l'image
       movie = FFMPEG::Movie.new(DOSSIER_VIDEOS_ARLO + nom_video)
-      movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: (v[:secondes] / 2), quality: ARLO_JPG_QUALITY)
+      movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: 5, quality: ARLO_JPG_QUALITY)
 
       # Suppression du video
       File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
@@ -209,7 +209,8 @@ class ApiHektor
   def traiter_images (input, style)
     c = Curl::Easy.new(URL_HEKTOR)
     c.multipart_form_post = true
-    c.http_post(Curl::PostField.file('input_image', input), Curl::PostField.file('style_image', style))
+    p c.http_post(Curl::PostField.file('input_image', input), Curl::PostField.file('style_image', style))
+    p c.body_str
   end
 
 end
