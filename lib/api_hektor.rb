@@ -102,7 +102,7 @@ class ApiHektor
 
       # Creation de l'image
       movie = FFMPEG::Movie.new(DOSSIER_VIDEOS_ARLO + nom_video)
-      movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: 5, quality: ARLO_JPG_QUALITY)
+      movie.screenshot(DOSSIER_IMAGES_ARLO + nom_image, seek_time: v[:secondes] / 2, quality: ARLO_JPG_QUALITY)
 
       # Suppression du video
       File.delete(DOSSIER_VIDEOS_ARLO + nom_video)
