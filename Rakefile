@@ -11,3 +11,9 @@ task :create_image do
   hektor = ApiHektor.new
   hektor.run
 end
+
+task :get_videos do
+  require_relative "./lib/api_hektor"
+  hektor = ApiHektor.new
+  p hektor.arlo.get_videos (Time.now - 24*HEURE).strftime("%Y%m%d"), (Time.now).strftime("%Y%m%d")
+end

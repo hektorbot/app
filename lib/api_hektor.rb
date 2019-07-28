@@ -28,8 +28,6 @@ HEURE = 60*MINUTE
 DECALAGE_TZ_ARLO = 4*HEURE
 DECALAGE_TZ_HEKTOR = 4*HEURE
 
-TEMPS_RECENT = 1*HEURE
-
 class ApiHektor
   attr_accessor :arlo, :dropbox
 
@@ -78,13 +76,12 @@ class ApiHektor
   def import_last_new_from_arlo (debut = nil, fin = nil)
 
     #init
-    time = (Time.now).strftime("%Y%m%d")
-    debut ||= time
-    fin ||= time
+    debut ||= (Time.now - 24*HEURE).strftime("%Y%m%d")
+    fin ||= (Time.now).strftime("%Y%m%d")
     images = []
 
     # Videos recents
-    videos = @arlo.get_videos(debut, fin).select { |v| v[:datetime] > (Time.now - (DECALAGE_TZ_HEKTOR + TEMPS_RECENT))}
+    videos = @arlo.get_videos(debut, fin)
 
     # Liste styles
     styles = get_liste_styles
