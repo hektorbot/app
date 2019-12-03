@@ -43,6 +43,16 @@ module.exports = shipit => {
       ${[".env", "unicorn.rb", "config.ru"]
         .map(file => `ln -s ${path.join(shipit.config.deployTo, file)}`)
         .join(";")}
+      ${["robots.txt"]
+        .map(
+          file =>
+            `ln -s ${path.join(
+              shipit.config.deployTo,
+              "public",
+              file
+            )} ${path.join("public", file)}`
+        )
+        .join(";")}
       bundler install;
       rake update_cron;
       sudo systemctl restart frontend-${shipit.environment}.service;
