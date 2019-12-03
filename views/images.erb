@@ -11,12 +11,12 @@
             </div>
         <% end %>
         <div id="presentation-image">
-            <img src="<%= @image %>" alt="Paysage de Saint-Camille par l’artiste Hektor">
+            <img src="<%= @image %>" alt="Paysage de Saint-Camille par l’artiste Hektor, vers de Gaston Gouin">
         </div>
     </div>
 </section>
 <footer>
-    <h2 style="font-weight: normal; font-size: 1em;">
-        <%= p @image.match(/saintcamille_(\w{5})/)[1] %> - 2019. Paysage de Saint-Camille. | <a href="https://creativecommons.org/licenses/by/4.0/deed">CC 4.0</a>
-    </h2>
+    <h1 class="image-desc">
+        <%= p @image.match(/saintcamille_(\w{5})/)[1] %> - 2019. Paysage de Saint-Camille et vers de Gaston Gouin. | <a href="https://creativecommons.org/licenses/by/4.0/deed">CC 4.0</a>
+    </h1>
 </footer>
